@@ -1,0 +1,11 @@
+﻿<Application x:Class="WPF_Helicopter.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WPF_Helicopter"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
+<!--Это вторая часть описания класса App(App.xaml.cs), описанная с помощью декларативной разметки XAML.-->
+<!--атрибут StartupUri со значением MainWindow.xaml - это задан класс окна, который будет запускаться при старте приложения.-->

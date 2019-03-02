@@ -1,0 +1,95 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Введите любую строку = ");
+            string str = "";
+            str = Console.ReadLine();
+
+            char[] chrs = new char[str.Length];
+            for (int i = 0; i < chrs.Length; i++) // преобразуем строку в массив символов
+            {
+                chrs[i] = str[i];
+            }
+
+            Console.Write("Строка в виде массива символов = ");
+            foreach (char i in chrs)
+            {
+                Console.Write(i + " ");
+            }
+            Console.WriteLine();
+
+            int[] intChars = new int[chrs.Length];
+            for (int i = 0; i < intChars.Length; i++) // преобразуем строку в массив кодов символов
+            {
+                intChars[i] = (int)chrs[i];
+            }
+
+            Console.Write("Строка в виде кодов массива символов = ");
+            foreach (int i in intChars)
+            {
+                Console.Write(i + " ");
+            }
+            Console.WriteLine();
+
+            char[] tmp = chrs;
+            Console.WriteLine("Число повторений символа в массиве: ");
+            for (int i = 0; i < tmp.Length;)
+            {
+                Console.WriteLine($"{tmp[i]} = {CountRepetedCharOfArray(tmp[i], tmp)}");
+                tmp = DeleteCharofArray(tmp[i], tmp);
+            }
+
+            double sumIntCharsOfArray = 0;
+            char[] tempChrs = chrs;
+
+            for (int i = 0; i < tempChrs.Length;)
+            {
+                int temp = CountRepetedCharOfArray(tempChrs[i], tempChrs);
+                double pow = Math.Pow((int)tempChrs[i], temp);
+                sumIntCharsOfArray += pow;
+                tempChrs = DeleteCharofArray(tempChrs[i], tempChrs); // удаляем первый символ в массиве
+            }
+
+            Console.Write($"Сумма (всех кодов символов в строке и в степени количества их повторений) - {sumIntCharsOfArray} по модулю 8 = ");
+            Console.WriteLine(sumIntCharsOfArray % 8);
+        }
+
+        static int CountRepetedCharOfArray(char chr, char[] arr) // подсчитывает число повторений символа
+        {
+            int count = 0;
+            foreach (char i in arr)
+            {
+                if (chr == i)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        static char[] DeleteCharofArray(char chr, char[] arr) // возращает массив без символа, который идёт первым параметром
+        {
+            int size = arr.Length - CountRepetedCharOfArray(chr, arr);
+            char[] newArr = new char[size];
+            int temp = 0;
+            foreach (char i in arr)
+            {
+                if (chr != i)
+                {
+                    newArr[temp] = i;
+                    temp++;
+                }
+            }
+            return newArr;
+        }
+    }
+}

@@ -1,0 +1,97 @@
+﻿<Window x:Class="WPF_Helicopter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_Helicopter"
+        xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="Helicopter" Height="400" Width="600" MinWidth="600">
+    <Window.Resources>
+        <local:Helicopter x:Key="Helicopter" />
+        <ControlTemplate x:Key="ErrorTemplate">
+            <DockPanel LastChildFill="True">
+                <Border BorderBrush="Red" BorderThickness="2">
+                    <AdornedElementPlaceholder />
+                </Border>
+                <TextBlock Foreground="Red" FontSize="18" FontWeight="Bold">!</TextBlock>
+            </DockPanel>
+        </ControlTemplate>
+        <Style TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <!--Также можем определить поведение и визуализацию через триггер при установке свойства Validation.HasError в True. 
+                    А с помощью свойства ToolTip можно создать привязку к сообщению ошибки-->
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+                    <Setter Property="Foreground" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Width="48" Margin="15,10,10,40" Text="Model" FontSize="13" />
+            <TextBlock Width="64" Margin="15,10,10,40" Text="Length, m." FontSize="13" />
+            <TextBlock Width="61" Margin="15,10,10,40" Text="Height, m." FontSize="13" />
+            <TextBlock Width="117" Margin="15,10,10,40" Text="Carrying capacity, t." FontSize="13" />
+            <TextBlock Width="111" Margin="15,10,10,40" Text="Engine power, kWt" FontSize="13" />
+        </StackPanel>
+
+        <!--<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBox x:Name ="ModelTextBox" Width="49" Margin="15,45,10,10" Text="{Binding Model, ValidatesOnDataErrors=True, 
+            NotifyOnValidationError=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
+            Validation.ErrorTemplate - шаблон, который будет отрабатывать при ошибке валидации. Этот шаблон, определенный выше в ресурсах окна, 
+            определяет границу красного цвета вокруг элемента ввода, а также отображает рядом с ним восклицательный знак красного цвета
+            <TextBox x:Name ="LengthTextBox" Width="64" Margin="15,45,10,10" Text="{Binding Length, ValidatesOnDataErrors=True,
+            NotifyOnValidationError=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
+            <TextBox x:Name ="HeightTextBox" Width="61" Margin="15,45,10,10" Text="{Binding Length, ValidatesOnDataErrors=True,
+            NotifyOnValidationError=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
+            <TextBox x:Name ="CarryingСapacityTextBox" Width="117" Margin="15,45,10,10" Text="{Binding Length, ValidatesOnDataErrors=True,
+            NotifyOnValidationError=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
+            <TextBox x:Name ="EnginePowerTextBox" Width="111" Margin="15,45,10,10" Text="{Binding Length, ValidatesOnDataErrors=True,
+            NotifyOnValidationError=True, ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
+        </StackPanel>-->
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBox x:Name ="ModelTextBox" Width="49" Margin="15,45,10,10"/>
+            <TextBox x:Name ="LengthTextBox" Width="64" Margin="15,45,10,10"/>
+            <TextBox x:Name ="HeightTextBox" Width="61" Margin="15,45,10,10"/>
+            <TextBox x:Name ="CarryingСapacityTextBox" Width="117" Margin="15,45,10,10"/>
+            <TextBox x:Name ="EnginePowerTextBox" Width="111" Margin="15,45,10,10"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <ListBox Name="helicoptersList" ItemsSource="{Binding Helicopters}" SelectionChanged="helicoptersList_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <!--Ключевым свойством для отображения данных во всех элементах-списках (не только в ListBox) является свойство ItemTemplate. 
+                        Оно задает шаблон данных. В качестве значения этого свойства устанавливается объект DataTemplate - именно этот объект 
+                        и управляет отображением данных. В качестве самих данных, которые отображаются в DataTemplate, 
+                        как правило, выступают объекты пользовательских классов, создаваемых самим разработчиком.-->
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="49" Margin="15,10,10,10" Text="{Binding Model}" FontSize="13" />
+                            <TextBlock Width="64" Margin="15,10,10,10" Text="{Binding Length}" FontSize="13" />
+                            <TextBlock Width="61" Margin="15,10,10,10" Text="{Binding Height}" FontSize="13" />
+                            <TextBlock Width="117" Margin="15,10,10,10" Text="{Binding CarryingCapacity}" FontSize="13" />
+                            <TextBlock Width="111" Margin="15,10,10,10" Text="{Binding EnginePower}" FontSize="13" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Add" Width="50" Margin="10" Click="ButtonClickAdd"/>
+            <Button Content="Edit" Width="50" Margin="10" Click="ButtonClickEdit"/>
+            <Button Content="Delete" Width="50" Margin="10" Click ="ButtonClickDelete"/> 
+            <Button Content="Exit" Width="50" Margin="10" Click="ButtonClickExit"/>
+        </StackPanel>
+    </Grid>
+</Window>
